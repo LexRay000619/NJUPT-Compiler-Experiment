@@ -48,7 +48,7 @@ public class LexicalAnalyzer {
         // sb中保存了源代码文件去掉所有空格、换行符、制表符、注释之后的字符序列，以供下一步分析
         String s1 = new String(data, StandardCharsets.UTF_8).replaceAll("//.+", "");
         String s2 = s1.replaceAll("\\s", "");
-        sb = new StringBuilder(s2.replaceAll("/\\*.*\\*/", ""));
+        sb = new StringBuilder(s2.replaceAll("/\\*.*?\\*/", ""));
         System.out.println("经过预处理后的源程序为：\n" + sb);
         fw.write("经过预处理后的源程序为：\n" + sb);
         fw.write("\n");
