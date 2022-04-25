@@ -40,14 +40,15 @@ public class LexicalAnalyzer {
                 "/=", "++", "--", ">=", "<=", "!=", "!", "%", "%=",
                 "&", "&&", "|", "||", "?:", "~", "^", "<<", ">>"
         );
-        fw=new FileWriter("D:\\afterCompile.txt",false);
+        fw = new FileWriter("D:\\afterCompile.txt", false);
         Path path = Paths.get("D:\\code.c");
         byte[] data = Files.readAllBytes(path);
         System.out.println("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8));
-        fw.write("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8)+"\n");
-        // sb中保存了源代码文件去掉所有空格、换行符、制表符之后的字符序列，以供下一步分析
-
-        sb = new StringBuilder(new String(data, StandardCharsets.UTF_8).replaceAll("[ \r\t\n]", ""));
+        fw.write("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8) + "\n");
+        // sb中保存了源代码文件去掉所有空格、换行符、制表符、注释之后的字符序列，以供下一步分析
+        String s1 = new String(data, StandardCharsets.UTF_8).replaceAll("//.+", "");
+        String s2 = s1.replaceAll("\\s", "");
+        sb = new StringBuilder(s2.replaceAll("/\\*.*\\*/", ""));
         System.out.println("经过预处理后的源程序为：\n" + sb);
         fw.write("经过预处理后的源程序为：\n" + sb);
         fw.write("\n");
@@ -77,8 +78,8 @@ public class LexicalAnalyzer {
         StringBuilder sbb;
         for (int i = 0; i < sb.length(); i++) {
             ch = sb.charAt(i);
+            sbb = new StringBuilder();
             if (isLetter(ch)) {
-                sbb = new StringBuilder();
                 do {
                     sbb.append(ch);
                     ch = sb.charAt(++i);
@@ -94,7 +95,6 @@ public class LexicalAnalyzer {
                 }
             }
             else if (isDigit(ch)) {
-                sbb = new StringBuilder();
                 do {
                     sbb.append(ch);
                     ch = sb.charAt(++i);
@@ -108,7 +108,6 @@ public class LexicalAnalyzer {
                 fw.write("(分隔符,'" + ch + "')\n");
             }
             else {
-                sbb = new StringBuilder();
                 do {
                     sbb.append(ch);
                     ch = sb.charAt(++i);
