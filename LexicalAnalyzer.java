@@ -46,9 +46,12 @@ public class LexicalAnalyzer {
         System.out.println("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8));
         fw.write("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8) + "\n");
         // sb中保存了源代码文件去掉所有空格、换行符、制表符、注释之后的字符序列，以供下一步分析
-        String s1 = new String(data, StandardCharsets.UTF_8).replaceAll("//.+", "");
-        String s2 = s1.replaceAll("\\s", "");
-        sb = new StringBuilder(s2.replaceAll("/\\*.*?\\*/", ""));
+//        下面这行代码从逻辑上、测试工具上都能成功识别所有空格、换行符、制表符、多种注释形式并替换，
+//        但是在Java代码中，却无法替换掉带有换行的多行注释，应该是Java语言的问题
+//        String s=new String(data,StandardCharsets.UTF_8).replaceAll("//.+|/\\*(.|\\n)*?\\*/|\\s","");
+        // 因此采用链式写法，分步解决问题,减少上一版代码的冗余中间量
+        String s = new String(data, StandardCharsets.UTF_8).replaceAll("(a|b)*", "").replaceAll("\\s", "").replaceAll("/\\*.*?\\*/", "");
+        sb = new StringBuilder(s);
         System.out.println("经过预处理后的源程序为：\n" + sb);
         fw.write("经过预处理后的源程序为：\n" + sb);
         fw.write("\n");
