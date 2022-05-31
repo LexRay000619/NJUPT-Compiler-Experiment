@@ -40,8 +40,8 @@ public class LexicalAnalyzer {
                 "/=", "++", "--", ">=", "<=", "!=", "!", "%", "%=",
                 "&", "&&", "|", "||", "?:", "~", "^", "<<", ">>"
         );
-        fw = new FileWriter("D:\\afterCompile.txt", false);
-        Path path = Paths.get("D:\\code.c");
+        fw = new FileWriter("src/compiler/afterCompile.txt", false);
+        Path path = Paths.get("src/compiler/test.txt");
         byte[] data = Files.readAllBytes(path);
         System.out.println("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8));
         fw.write("源程序代码为：\n" + new String(data, StandardCharsets.UTF_8) + "\n");
