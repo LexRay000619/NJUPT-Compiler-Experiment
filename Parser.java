@@ -210,13 +210,13 @@ public class Parser {
                 break;
             }
             String production = parsingTable.get(analysisStack.getLast()).get(remainingInputString.charAt(i));
-            System.out.println(production);
             // 遇到不匹配的项,语法分析错误
             if ("ERROR".equals(production)) {
                 System.out.println("失败,文法中无此产生式!");
                 break;
             }
             else {
+                System.out.println(production);
                 // 将产生式的右部进行反转,并以此入栈
                 String reversedRightPart = new StringBuilder(production.substring(2)).reverse().toString();
                 int rightPartLen = reversedRightPart.length();
